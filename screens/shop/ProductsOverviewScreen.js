@@ -12,7 +12,7 @@ const ProductsOverviewScreen = (props) => {
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <ProductItem
-          image={itemData.item.imageURl}
+          image={itemData.item.imageUrl}
           title={itemData.item.title}
           price={itemData.item.price}
           onViewDetail={() => {

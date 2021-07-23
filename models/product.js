@@ -3,7 +3,7 @@ class Product {
     this.id = id;
     this.ownerId = ownerId;
     this.title = title;
-    this.imageURl = imageUrl;
+    this.imageUrl = imageUrl;
     this.description= description;
     this.price= price;
   }
