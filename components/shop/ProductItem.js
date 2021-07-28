@@ -10,6 +10,7 @@ import {
   Platform,
 } from "react-native";
 
+
 import Colors from "../../constants/Colors";
 
 const ProductItem = (props) => {
