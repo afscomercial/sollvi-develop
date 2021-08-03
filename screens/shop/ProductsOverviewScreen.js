@@ -4,7 +4,8 @@ import {
   Platform,
   StyleSheet,
   TouchableHighlight,
-  View
+  View,
+  Button,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -13,12 +14,19 @@ import { Ionicons } from "@expo/vector-icons";
 
 import ProductItem from "../../components/shop/ProductItem";
 import * as cartActions from "../../store/actions/cart";
-import CustomHeaderButton from "../../components/UI/HeaderButton";
+import HeaderButton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
   const dispatch = useDispatch();
+
+  const selectItemHandler = (id, title) => {
+    props.navigation.navigate("ProductDetail", {
+      productId: id,
+      productTitle: title,
+    });
+  };
 
   return (
     <FlatList
@@ -29,16 +37,25 @@ const ProductsOverviewScreen = (props) => {
           image={itemData.item.imageUrl}
           title={itemData.item.title}
           price={itemData.item.price}
-          onViewDetail={() => {
-            props.navigation.navigate("ProductDetail", {
-              productId: itemData.item.id,
-              productTitle: itemData.item.title,
-            });
+          onSelect={() => {
+            selectItemHandler(itemData.item.id, itemData.item.title);
           }}
-          onAddToCart={() => {
-            dispatch(cartActions.addToCart(itemData.item));
-          }}
-        />
+        >
+          <Button
+            color={Colors.primary}
+            title="View Details"
+            onPress={() => {
+              selectItemHandler(itemData.item.id, itemData.item.title);
+            }}
+          />
+          <Button
+            color={Colors.primary}
+            title="To Cart"
+            onPress={() => {
+              dispatch(cartActions.addToCart(itemData.item));
+            }}
+          />
+        </ProductItem>
       )}
     />
   );
@@ -47,29 +64,40 @@ const ProductsOverviewScreen = (props) => {
 ProductsOverviewScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "All Products",
+    headerLeft: (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Menu"
+          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+          onPress={() => {
+            navData.navigation.toggleDrawer();
+          }}
+        />
+      </HeaderButtons>
+    ),
     headerRight: (
-      <TouchableHighlight
-        onPress={() => {
-          navData.navigation.navigate("Cart");
-        }}
-      >
-        <View style={styles.headerButton}>
-          <Ionicons
-            name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
-            size={23}
-            color={Platform.OS === "android" ? "white" : Colors.primary}
-          />
-        </View>
-      </TouchableHighlight>
-      // <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-      //   <Item
-      //     title="Cart"
-      //     iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
-      //     onPress={() => {
-      //       navData.navigation.navigate("Cart");
-      //     }}
-      //   />
-      // </HeaderButtons>
+      // <TouchableHighlight
+      //   onPress={() => {
+      //     navData.navigation.navigate("Cart");
+      //   }}
+      // >
+      //   <View style={styles.headerButton}>
+      //     <Ionicons
+      //       name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+      //       size={23}
+      //       color={Platform.OS === "android" ? "white" : Colors.primary}
+      //     />
+      //   </View>
+      // </TouchableHighlight>
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Cart"
+          iconName={Platform.OS === "android" ? "md-cart" : "ios-cart"}
+          onPress={() => {
+            navData.navigation.navigate("Cart");
+          }}
+        />
+      </HeaderButtons>
     ),
   };
 };
@@ -77,8 +105,8 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   headerButton: {
     alignItems: "center",
-    padding: 20
-  }
+    padding: 20,
+  },
 });
 
 export default ProductsOverviewScreen;
