@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-solvi-dev-192833-authRole",
+      "UnauthRoleArn": "arn:aws:iam::799948958303:role/amplify-solvi-dev-192833-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::799948958303:role/amplify-solvi-dev-192833-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-solvi-dev-192833-deployment",
+      "UnauthRoleName": "amplify-solvi-dev-192833-unauthRole",
+      "StackName": "amplify-solvi-dev-192833",
+      "StackId": "arn:aws:cloudformation:us-east-1:799948958303:stack/amplify-solvi-dev-192833/b9703f40-0216-11ec-85be-1288d43a03c2",
+      "AmplifyAppId": "d1wywuvlpimuu3"
+    }
+  }
+}
