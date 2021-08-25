@@ -52,3 +52,69 @@ export const deleteProducts = /* GraphQL */ `
     }
   }
 `;
+export const createOrders = /* GraphQL */ `
+  mutation CreateOrders(
+    $input: CreateOrdersInput!
+    $condition: ModelOrdersConditionInput
+  ) {
+    createOrders(input: $input, condition: $condition) {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateOrders = /* GraphQL */ `
+  mutation UpdateOrders(
+    $input: UpdateOrdersInput!
+    $condition: ModelOrdersConditionInput
+  ) {
+    updateOrders(input: $input, condition: $condition) {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteOrders = /* GraphQL */ `
+  mutation DeleteOrders(
+    $input: DeleteOrdersInput!
+    $condition: ModelOrdersConditionInput
+  ) {
+    deleteOrders(input: $input, condition: $condition) {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;

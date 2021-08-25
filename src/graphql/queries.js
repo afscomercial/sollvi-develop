@@ -36,3 +36,48 @@ export const listProducts = /* GraphQL */ `
     }
   }
 `;
+export const getOrders = /* GraphQL */ `
+  query GetOrders($id: ID!) {
+    getOrders(id: $id) {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listOrders = /* GraphQL */ `
+  query ListOrders(
+    $filter: ModelOrdersFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        ownerId
+        cartItems {
+          productId
+          productPrice
+          productTitle
+          quantity
+          sum
+        }
+        date
+        totalAmount
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

@@ -6,3 +6,20 @@ type Products @model {
   price: Float
   title: String
 }
+
+
+type Orders @model {
+  id: ID!
+  ownerId: String
+  cartItems: [CarItems]
+  date: String
+  totalAmount: Float
+}
+
+type CarItems {
+  productId: ID
+  productPrice: Float
+  productTitle: String
+  quantity: Int
+  sum: Float
+}

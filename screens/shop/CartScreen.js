@@ -1,15 +1,24 @@
-import React from "react";
-import { View, Text, FlatList, Button, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { color } from "react-native-reanimated";
 import { useSelector, useDispatch } from "react-redux";
 
 import Colors from "../../constants/Colors";
 import CartItem from "../../components/shop/CartItem";
-import Card from '../../components/UI/Card';
+import Card from "../../components/UI/Card";
 import * as cartActions from "../../store/actions/cart";
-import * as orderActions from '../../store/actions/orders';
+import * as orderActions from "../../store/actions/orders";
 
 const CartScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const cartTotalAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => {
     const transformedCartItems = [];
@@ -28,22 +37,34 @@ const CartScreen = (props) => {
   });
   const dispatch = useDispatch();
 
+  const sendOrderHandler = async () => {
+    setIsLoading(true);
+    await dispatch(cartActions.removeFromCart(itemData.item.productId));
+    setIsLoading(false);
+  };
+
   return (
     <Card style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
           {" "}
           Total:{" "}
-          <Text style={styles.amount}>${Math.round(cartTotalAmount.toFixed(2) * 100)/100}</Text>
+          <Text style={styles.amount}>
+            ${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
+          </Text>
         </Text>
-        <Button
-          color={color.accent}
-          title="Order Now"
-          disabled={cartItems.length === 0}
-          onPress={()=>{
-            dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
-          }}
-        />
+        {isLoading ? (
+          <ActivityIndicator size="small" color={Colors.primary} />
+        ) : (
+          <Button
+            color={color.accent}
+            title="Order Now"
+            disabled={cartItems.length === 0}
+            onPress={() => {
+              dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+            }}
+          />
+        )}
       </View>
       <View>
         <FlatList
@@ -55,9 +76,7 @@ const CartScreen = (props) => {
               title={itemData.item.productTitle}
               amount={itemData.item.sum}
               deletable
-              onRemove={() => {
-                dispatch(cartActions.removeFromCart(itemData.item.productId));
-              }}
+              onRemove={sendOrderHandler}
             />
           )}
         />
@@ -67,7 +86,7 @@ const CartScreen = (props) => {
 };
 
 CartScreen.navigationOptions = {
-  headerTitle: 'Your Cart'
+  headerTitle: "Your Cart",
 };
 
 const styles = StyleSheet.create({
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 20,
-    padding: 10
+    padding: 10,
   },
   summaryText: {
     fontFamily: "open-sans-box",

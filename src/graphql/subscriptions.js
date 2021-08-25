@@ -43,3 +43,60 @@ export const onDeleteProducts = /* GraphQL */ `
     }
   }
 `;
+export const onCreateOrders = /* GraphQL */ `
+  subscription OnCreateOrders {
+    onCreateOrders {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOrders = /* GraphQL */ `
+  subscription OnUpdateOrders {
+    onUpdateOrders {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOrders = /* GraphQL */ `
+  subscription OnDeleteOrders {
+    onDeleteOrders {
+      id
+      ownerId
+      cartItems {
+        productId
+        productPrice
+        productTitle
+        quantity
+        sum
+      }
+      date
+      totalAmount
+      createdAt
+      updatedAt
+    }
+  }
+`;
